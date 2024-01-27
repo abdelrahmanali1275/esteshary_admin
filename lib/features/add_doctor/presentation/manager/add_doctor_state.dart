@@ -4,6 +4,9 @@ part of 'add_doctor_cubit.dart';
 abstract class AddDoctorState {}
 
 class AddDoctorInitial extends AddDoctorState {}
+
+class LookPassChangeState extends AddDoctorState {}
+
 class AddDoctorLoadingState extends AddDoctorState {}
 
 class AddDoctorSuccessState extends AddDoctorState {
@@ -17,9 +20,15 @@ class AddDoctorErrState extends AddDoctorState {
 
   AddDoctorErrState(this.message);
 }
-class ImageSuccess extends AddDoctorState{
 
-}
-class RemoveController extends AddDoctorState{
+class ImageSuccess extends AddDoctorState {}
 
+class ImageErr extends AddDoctorState {
+  final String message;
+
+  ImageErr(this.message);
 }
+
+class ImageLoading extends AddDoctorState {}
+
+class RemoveController extends AddDoctorState {}

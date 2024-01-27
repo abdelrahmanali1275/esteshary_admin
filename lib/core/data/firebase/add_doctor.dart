@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:naraakom/core/utils/app_strings.dart';
 
 import '../../helper/error/failure.dart';
 import '../doctor_model.dart';
@@ -11,12 +12,12 @@ class FirebaseDoctor {
       DoctorModel doctorModel,
       ) async {
     try {
-      final res = await FirebaseFirestore.instance
-          .collection("Doctors")
+       await FirebaseFirestore.instance
+          .collection(AppStrings.doctorsCollection)
           .doc(doctorModel.doctorId)
           .set(doctorModel.toJson());
 
-      return Right("تم اضافة البيانات بنجاح");
+      return Right(AppStrings.addDoctorDataSuccess);
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
     }

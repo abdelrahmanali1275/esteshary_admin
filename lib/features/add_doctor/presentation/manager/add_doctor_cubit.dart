@@ -1,17 +1,15 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
+import 'package:naraakom/core/utils/app_strings.dart';
 
 import '../../../../core/data/doctor_model.dart';
 import '../../../../core/data/firebase/add_doctor.dart';
 import '../../../../core/data/firebase/auth.dart';
 import 'package:path/path.dart';
-
 part 'add_doctor_state.dart';
 
 class AddDoctorCubit extends Cubit<AddDoctorState> {
@@ -24,19 +22,29 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
   TextEditingController specialist = TextEditingController();
   File? file;
   String? url;
-  getImage() async {
-    final ImagePicker picker = ImagePicker();
-// Pick an image.
-    final XFile? imageGallery =
-        await picker.pickImage(source: ImageSource.gallery);
+  bool lookPass = true;
+  lookPassChange() {
+    lookPass == true ? lookPass = false : lookPass = true;
+    emit(LookPassChangeState());
+  }
 
-    file = File(imageGallery!.path);
-    var imageName = basename(imageGallery.path);
-    var refStorage = FirebaseStorage.instance.ref(imageName);
-    await refStorage.putFile(file!);
-    print(imageGallery.path);
-    url = await refStorage.getDownloadURL();
-    emit(ImageSuccess());
+  getImage() async {
+    emit(ImageLoading());
+    try {
+      final ImagePicker picker = ImagePicker();
+      // Pick an image.
+      final XFile? imageGallery =
+          await picker.pickImage(source: ImageSource.gallery);
+
+      file = File(imageGallery!.path);
+      var imageName = basename(imageGallery.path);
+      var refStorage = FirebaseStorage.instance.ref(imageName);
+      await refStorage.putFile(file!);
+      url = await refStorage.getDownloadURL();
+      emit(ImageSuccess());
+    }  catch (e) {
+      emit(ImageErr(e.toString()));
+    }
   }
 
   String gender = "";
@@ -59,7 +67,7 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
 
     res.fold(
       (l) => emit(
-        AddDoctorErrState('برجاء ادخال بيانات صحيحة'),
+        AddDoctorErrState(l.message),
       ),
       (r) async {
         var set = await firebaseDoctor.setDoctorData(DoctorModel(
@@ -70,11 +78,17 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
           specialist: specialist.text,
           photo: url!,
         ));
+
         set.fold((l) {
           AddDoctorErrState(l.message);
         }, (r) {
+          email.clear();
+          name.clear();
+          pass.clear();
+          specialist.clear();
+          url = null;
           emit(
-            AddDoctorSuccessState("تم التسجيل بنجاح"),
+            AddDoctorSuccessState(AppStrings.addDoctorSuccess),
           );
         });
       },
