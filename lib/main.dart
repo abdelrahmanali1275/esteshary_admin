@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:naraakom/features/accept_requests/presentation/manager/accept_requests_cubit.dart';
+import 'package:naraakom/features/new_reservation/presentation/manager/new_reservation_cubit.dart';
 import 'config/theme/theme_helper.dart';
 import 'core/helper/save_data.dart';
 import 'features/chat/presentation/manager/chat_cubit.dart';
 import 'features/chat/presentation/pages/chat_screen.dart';
 import 'features/chat/presentation/pages/widgets/class_notifaction_api.dart';
+import 'features/doctor_request/presentation/manager/doctor_request_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -36,63 +39,75 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  await NotificationApi.init();
+ // await NotificationApi.init();
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  deviceToken = await messaging.getToken(
-    vapidKey: "BGpdLRs......",
-  );
-  print("token///////$deviceToken");
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-      print(inChat);
-
-      if (!inChat) {
-        NotificationApi.notificationsDetails(
-            body: "${message.notification!.body}",
-            title: "${message.notification!.title}",
-            payload: message.data['id']);
-      }
-    }
-  });
-  FirebaseMessaging.onMessageOpenedApp.listen((event) {
-    navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
-      builder: (context) => ChatScreen(userId: event.data["id"] ?? ""),
-    ));
-  });
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  try {
-    await messaging.subscribeToTopic('admin');
-    print(" subscribeToTopic");
-  } catch (e) {
-    print("canont subscribeToTopic");
-  }
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  //
+  // deviceToken = await messaging.getToken(
+  //   vapidKey: "BGpdLRs......",
+  // );
+  // print("token///////$deviceToken");
+  //
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   print('Got a message whilst in the foreground!');
+  //   print('Message data: ${message.data}');
+  //
+  //   if (message.notification != null) {
+  //     print('Message also contained a notification: ${message.notification}');
+  //     print(inChat);
+  //
+  //     if (!inChat) {
+  //       NotificationApi.notificationsDetails(
+  //           body: "${message.notification!.body}",
+  //           title: "${message.notification!.title}",
+  //           payload: message.data['id']);
+  //     }
+  //   }
+  // });
+  // FirebaseMessaging.onMessageOpenedApp.listen((event) {
+  //   navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
+  //     builder: (context) => ChatScreen(userId: event.data["id"] ?? ""),
+  //   ));
+  // });
+  //
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //
+  // try {
+  //   await messaging.subscribeToTopic('admin');
+  //   print(" subscribeToTopic");
+  // } catch (e) {
+  //   print("canont subscribeToTopic");
+  // }
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ChatCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ChatCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AcceptRequestsCubit()..acceptRequests(),
+        ),
+        BlocProvider(
+          create: (context) => NewReservationCubit(),
+        ),BlocProvider(
+          create: (context) => DoctorRequestCubit(),
+        ),
+      ],
       child: MaterialApp(
         navigatorKey: navigatorGlobalKey,
         theme: theme,

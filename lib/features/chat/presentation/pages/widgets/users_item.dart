@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:naraakom/core/utils/app_assets.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
 import 'package:naraakom/features/chat/presentation/pages/chat_screen.dart';
-import 'package:naraakom/features/new_reservation/new_reservation_screen.dart';
 
 import '../../../../../config/theme/custom_text_style.dart';
 import '../../../../../core/utils/app_colors.dart';

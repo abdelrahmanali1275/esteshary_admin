@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
+import 'package:naraakom/core/data/models/user_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import 'package:naraakom/core/widgets/custom_app_bar.dart';
-import 'package:naraakom/features/home/presentation/manager/home_cubit.dart';
-
-import '../../core/utils/app_colors.dart';
-import '../home/presentation/widgets/specialization_list.dart';
+import 'package:naraakom/features/new_reservation/presentation/manager/enter_doctor_cubit.dart';
+import 'package:naraakom/features/new_reservation/presentation/widgets/specialization_list.dart';
 
 class EnterDoctor extends StatelessWidget {
-  const EnterDoctor({super.key});
+  const EnterDoctor({super.key, required this.userModel});
+
+  final UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +18,30 @@ class EnterDoctor extends StatelessWidget {
       appBar: const CustomAppBar(
         text: AppStrings.specialestAvailable,
       ),
-      body: BlocProvider(
-        create: (context) => HomeCubit(),
+      body: Center(
         child: Column(
           children: [
-            Text(
-              AppStrings.specialestAvailable,
-              style: TextStyle(
-                  color: AppColors.blueGray700,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40),
-            ),
+            Text(AppStrings.specialestAvailable,
+                style: CustomTextStyles.bodyLargeBlackFont40),
             30.height,
-            SpecializationList(),
+            BlocProvider(
+              create: (context) => EnterDoctorCubit()..allDoctorSpecialist(),
+              child: BlocBuilder<EnterDoctorCubit, EnterDoctorState>(
+                builder: (context, state) {
+                  print(userModel.userId);
+                  if (state is AllDoctorErr) {
+                    return Text(state.err);
+                  }
+                  if (state is AllDoctorSuccess) {
+                    return SpecializationList(
+                      data: state.data, userModel: userModel,
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

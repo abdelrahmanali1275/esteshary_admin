@@ -9,12 +9,11 @@ class DoctorRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       appBar: CustomAppBar(
         text: AppStrings.talabat,
       ),
-      body: DoctorRequestScreenBody(
-      ),
+      body: DoctorRequestScreenBody(),
     );
   }
 }

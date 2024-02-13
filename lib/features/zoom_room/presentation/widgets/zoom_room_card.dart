@@ -57,10 +57,7 @@ class AddZoomRoomCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                 Chip(
-                  backgroundColor: AppColors.primary.withOpacity(.9),
-                  label:const Text(AppStrings.addOneRoom),).onTap((){
-                }),
+
               ],
             ),
           ],

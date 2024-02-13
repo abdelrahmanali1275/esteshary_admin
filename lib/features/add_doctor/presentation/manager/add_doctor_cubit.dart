@@ -6,10 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 
-import '../../../../core/data/doctor_model.dart';
+import '../../../../core/data/models/doctor_model.dart';
 import '../../../../core/data/firebase/add_doctor.dart';
 import '../../../../core/data/firebase/auth.dart';
 import 'package:path/path.dart';
+
 part 'add_doctor_state.dart';
 
 class AddDoctorCubit extends Cubit<AddDoctorState> {
@@ -23,6 +24,7 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
   File? file;
   String? url;
   bool lookPass = true;
+
   lookPassChange() {
     lookPass == true ? lookPass = false : lookPass = true;
     emit(LookPassChangeState());
@@ -32,7 +34,6 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
     emit(ImageLoading());
     try {
       final ImagePicker picker = ImagePicker();
-      // Pick an image.
       final XFile? imageGallery =
           await picker.pickImage(source: ImageSource.gallery);
 
@@ -42,7 +43,7 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
       await refStorage.putFile(file!);
       url = await refStorage.getDownloadURL();
       emit(ImageSuccess());
-    }  catch (e) {
+    } catch (e) {
       emit(ImageErr(e.toString()));
     }
   }
@@ -51,6 +52,7 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
   var key = GlobalKey<FormState>();
   AuthHelper authHelper = AuthHelper();
   FirebaseDoctor firebaseDoctor = FirebaseDoctor();
+
   addDoctor(context) async {
     // if (key.currentState!.validate()) {
     //   // message validate

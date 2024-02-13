@@ -2,6 +2,7 @@ class AppStrings {
   static const String home = "الصفحة الرئيسية";
   static const String resumeReservation = "متابعة الحجز";
   static const String confirmed = "الحجوزات المؤكدة";
+  static const String newHagz = "حجز جديد";
   static const String talabat = "طلبات الحجز";
   static const String goToRoom = "الدخول الى الغرفة";
   static const String addYourTime = "أضف مواعيدك المتاحة";
@@ -12,6 +13,7 @@ class AppStrings {
   static const String addRoom = "اضافة غرف الكشف";
   static const String addOneRoom = "اضافة غرفة";
   static const String newReservation = "حجز جديد";
+  static const String customRequests = "الطلبات العامة";
   static const String talkAboutYou = "اشرح حالتك";
   static const String specialestAvailable = "التخصصات المتاحة";
   static const String timeAvailable = "المواعيد المتاحة";
@@ -61,10 +63,14 @@ class AppStrings {
   static const String imageCollection = "Images";
   static const String sendMessage = "ارسال";
   static const String customRequestCollection = "CustomRequest";
+  static const String requestsCollection = "Requests";
   static const String photo = "photo";
   static const String specialistEng = "specialist";
   static const String emailEng = "email";
   static const String nameEng = "name";
   static const String passwordEng = "password";
   static const String doctorId = 'doctorId';
+  static const String waiting = "في انتظار الدفع";
+  static const String accept = "طلب مؤكد";
+  static const String refuse = "طلب ملغي";
 }

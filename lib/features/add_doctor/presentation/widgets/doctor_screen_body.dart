@@ -31,7 +31,9 @@ class DoctorScreenBody extends StatelessWidget {
               showToast(text: state.message, state: ToastStates.success);
             }
             if (state is ImageErr) {
-              showToast(text: state.message, state: ToastStates.error);
+              if (state.message != "Null check operator used on a null value") {
+                showToast(text: state.message, state: ToastStates.error);
+              }
             }
           },
           builder: (context, state) {
@@ -52,21 +54,21 @@ class DoctorScreenBody extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: AppColors.primary,
                         radius: 30,
-                        child: cubit.url != null
-                            ? state is ImageLoading
-                                ? Center(child: CircularProgressIndicator())
-                                : CircleAvatar(
+                        child: state is ImageLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : cubit.url != null
+                                ? CircleAvatar(
                                     backgroundImage: NetworkImage(
                                       cubit.url!,
                                     ),
                                     radius: 30,
                                   )
-                            : CircleAvatar(
-                                backgroundImage: AssetImage(
-                                  AppAssets.hagz,
-                                ),
-                                radius: 30,
-                              ),
+                                : CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                      AppAssets.hagz,
+                                    ),
+                                    radius: 30,
+                                  ),
                       ).onTap(() {
                         cubit.getImage();
                       }),

@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:naraakom/core/data/models/request_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 
 import '../../helper/error/failure.dart';
-import '../doctor_model.dart';
+import '../models/doctor_model.dart';
 
 class FirebaseDoctor {
-
-
   Future<Either<ErrorFailure, String>> setDoctorData(
       DoctorModel doctorModel,
       ) async {
@@ -22,6 +21,8 @@ class FirebaseDoctor {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
+
+
 }
 
 
