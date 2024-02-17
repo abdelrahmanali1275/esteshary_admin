@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,18 +73,16 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
         AddDoctorErrState(l.message),
       ),
       (r) async {
-        var set = await firebaseDoctor.setDoctorData(DoctorModel(
+        var set = await firebaseDoctor.setDoctorData(
+            DoctorModel(
           doctorId: r,
           name: name.text,
           email: email.text,
           password: pass.text,
           specialist: specialist.text,
           photo: url!,
-        ));
-
-        set.fold((l) {
-          AddDoctorErrState(l.message);
-        }, (r) {
+        )).then((value) {
+          FirebaseMessaging.instance.subscribeToTopic(r);
           email.clear();
           name.clear();
           pass.clear();

@@ -5,7 +5,7 @@ import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/data/models/custom_requests_model.dart';
 import 'package:naraakom/core/data/models/user_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
-import '../../../features/new_reservation/Timer.dart';
+import '../models/Timer.dart';
 import '../../helper/error/failure.dart';
 import '../models/doctor_model.dart';
 import '../models/request_model.dart';
@@ -47,6 +47,19 @@ class FireBaseRequests {
     }
   }
 
+  Future<Either<ErrorFailure, List<UserModel>>> getUsers() async {
+    try {
+      var res = await FirebaseFirestore.instance
+          .collection(AppStrings.collectionUsers)
+          .get();
+      return Right(res.docs
+          .map<UserModel>((e) => UserModel.fromJson(e.data()))
+          .toList());
+    } catch (e) {
+      return Left(ErrorFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<ErrorFailure, List<RequestModel>>> getRequestsWaiting() async {
     try {
       var res = await FirebaseFirestore.instance
@@ -80,10 +93,8 @@ class FireBaseRequests {
       var res = await FirebaseFirestore.instance
           .collection(AppStrings.requestsCollection)
           .doc("$idd")
-          .update({
-        "zoomLink": zoomLink,
-        "state": "تم التاكيد في انتظار الكشف"
-      });
+          .update(
+              {"zoomLink": zoomLink, "state": "تم التاكيد في انتظار الكشف"});
       return Right("تم اضافة الغرفة بنجاح");
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
@@ -97,15 +108,16 @@ class FireBaseRequests {
     required DoctorModel doctorModel,
     required UserModel userModel,
     required daysOfRequest,
+    required int num,
   }) async {
     var id = Random().nextInt(99999);
-    var userId = id;
     try {
       await FirebaseFirestore.instance.collection("Requests").doc("$id").set({
         "user": userModel.toJson(),
         "id": id,
         "from": from,
         "to": to,
+        "num":num,
         "doctor": doctorModel.toJson(),
         "createAt": DateTime.now(),
         "state": "في انتظار الدفع",
@@ -114,7 +126,15 @@ class FireBaseRequests {
         "zoomLink": "",
         "notes": "",
       });
-      return Right("تم حجز الميعاد بنجاح");
+      await FirebaseFirestore.instance
+          .collection("Doctors")
+          .doc("${doctorModel.doctorId}")
+          .collection("Timer")
+          .doc("$num")
+          .update({
+        "active": false,
+      });
+      return Right("تم حجز الميعاد بنجاح برجاء الدفع لتاكيد الحجز");
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
     }
@@ -132,13 +152,13 @@ class FireBaseRequests {
       res.docs.forEach((element) {
         element.data();
       });
-      print(addRequestDay.format());
       return Right(
           res.docs.map<Timer>((e) => Timer.fromJson(e.data())).toList());
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
+
   Future<Either<ErrorFailure, String>> addNotes(notes, idd) async {
     try {
       await FirebaseFirestore.instance
@@ -152,5 +172,4 @@ class FireBaseRequests {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
-
 }

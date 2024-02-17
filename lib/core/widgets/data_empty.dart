@@ -10,14 +10,16 @@ class DataEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        50.height,
-        Lottie.asset('assets/lottie/no_result_lottie.json',width: 250.w),
-        20.height,
-        Text("لا توجد حجوزات $txt",style: CustomTextStyles.bodyLargeBlack900Bold20),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          50.height,
+          Lottie.asset('assets/lottie/no_result_lottie.json',width: 250.w),
+          20.height,
+          Text("لا توجد حجوزات $txt",style: CustomTextStyles.bodyLargeBlack900Bold20),
+        ],
+      ),
     );
   }
 }

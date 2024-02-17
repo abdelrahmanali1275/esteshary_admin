@@ -1,11 +1,15 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
-import 'package:naraakom/core/data/models/user_model.dart';
-import 'package:naraakom/core/utils/app_strings.dart';
-import 'package:naraakom/core/widgets/custom_app_bar.dart';
-import 'package:naraakom/features/new_reservation/presentation/manager/enter_doctor_cubit.dart';
 import 'package:naraakom/features/new_reservation/presentation/widgets/specialization_list.dart';
+
+import '../../config/theme/custom_text_style.dart';
+import '../../core/data/models/user_model.dart';
+import '../../core/utils/app_strings.dart';
+import '../../core/widgets/custom_app_bar.dart';
+import 'presentation/manager/enter_doctor_cubit.dart';
 
 class EnterDoctor extends StatelessWidget {
   const EnterDoctor({super.key, required this.userModel});
@@ -28,7 +32,6 @@ class EnterDoctor extends StatelessWidget {
               create: (context) => EnterDoctorCubit()..allDoctorSpecialist(),
               child: BlocBuilder<EnterDoctorCubit, EnterDoctorState>(
                 builder: (context, state) {
-                  print(userModel.userId);
                   if (state is AllDoctorErr) {
                     return Text(state.err);
                   }

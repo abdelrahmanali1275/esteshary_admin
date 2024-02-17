@@ -49,6 +49,8 @@ class CustomTimeButton extends StatelessWidget {
                                       ? CustomFilledButton(
                                           from: '${state.timer[index].from}',
                                           to: '${state.timer[index].to}',
+                                          num: state.timer[index].num!,
+                                      active:state.timer[index].active!
                                         )
                                       : Center(
                                           child: Text(
@@ -78,7 +80,7 @@ class CustomTimeButton extends StatelessWidget {
               ),
             );
           },
-          child: context.read<NewReservationCubit>().day2== null
+          child: context.read<NewReservationCubit>().day2 == null
               ? Text("اليوم", style: CustomTextStyles.bodyMediumBlack20001)
               : Text(
                   "${context.read<NewReservationCubit>().day2} ${context.read<NewReservationCubit>().addRequestDay!.format()} ",

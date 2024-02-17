@@ -8,10 +8,9 @@ import '../models/doctor_model.dart';
 
 class FirebaseDoctor {
   Future<Either<ErrorFailure, String>> setDoctorData(
-      DoctorModel doctorModel,
-      ) async {
+      DoctorModel doctorModel,) async {
     try {
-       await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection(AppStrings.doctorsCollection)
           .doc(doctorModel.doctorId)
           .set(doctorModel.toJson());

@@ -6,7 +6,7 @@ import 'package:naraakom/core/data/firebase/firebase_requests.dart';
 import 'package:naraakom/core/data/models/user_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import '../../../../core/data/models/doctor_model.dart';
-import '../../Timer.dart';
+import '../../../../core/data/models/Timer.dart';
 
 part 'new_reservation_state.dart';
 
@@ -17,7 +17,7 @@ class NewReservationCubit extends Cubit<NewReservationState> {
 
   DoctorModel? doctorModel;
 
-  UserModel?userModel;
+  UserModel? userModel;
   List daysOfRequest = [
     AppStrings.monDay,
     AppStrings.tuesDay,
@@ -39,8 +39,8 @@ class NewReservationCubit extends Cubit<NewReservationState> {
 
   getDayTimer() async {
     emit(NewReservationLoading());
-    if(addRequestDay==null){
-      addRequestDay=DateTime(1);
+    if (addRequestDay == null) {
+      addRequestDay = DateTime(1);
     }
     var res = await fireBaseRequests.getDayTimer(
         doctorModel!, addRequestDay!, daysOfRequest);
@@ -48,16 +48,16 @@ class NewReservationCubit extends Cubit<NewReservationState> {
         (r) => emit(GetDayTimerLoaded(timer: r)));
   }
 
-  addRequest(from, to,) async {
+  addRequest(from, to, num) async {
     emit(AddRequestLoading());
     var res = await fireBaseRequests.addRequest(
-      day: addRequestDay,
-      daysOfRequest: daysOfRequest,
-      userModel: userModel!,
-      doctorModel: doctorModel!,
-      from: from,
-      to: to,
-    );
+        day: addRequestDay,
+        daysOfRequest: daysOfRequest,
+        doctorModel: doctorModel!,
+        from: from,
+        to: to,
+        num: num,
+        userModel: userModel!, );
     res.fold((l) => emit(AddRequestErr(message: l.message)), (r) {
       emit(AddRequestLoaded(message: r));
     });

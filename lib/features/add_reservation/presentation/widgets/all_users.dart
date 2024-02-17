@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:naraakom/core/utils/app_assets.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
-import 'package:naraakom/features/chat/presentation/pages/chat_screen.dart';
+import '../../../../config/theme/custom_text_style.dart';
+import '../../../../core/data/models/user_model.dart';
+import '../../../../core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../new_reservation/enter_doctor.dart';
 
-import '../../../../../config/theme/custom_text_style.dart';
-import '../../../../../core/data/models/user_model.dart';
-import '../../../../../core/utils/app_colors.dart';
-
-class UsersItem extends StatelessWidget {
-  const UsersItem({
+class AllUsers extends StatelessWidget {
+  const AllUsers({
     super.key, required this.data, required this.index,
   });
 
@@ -20,8 +19,9 @@ class UsersItem extends StatelessWidget {
       color: AppColors.cyan5002,
       child: InkWell(
         onTap: (){
-          ChatScreen(userId: data[index].userId,userName:data[index].name,).launch(context);
-        },
+          EnterDoctor(
+            userModel: data[index],
+          ).launch(context);        },
         child: ListTile(
           title: Text(data[index].name,style: CustomTextStyles.bodyLargeBlack900Bold20),
 

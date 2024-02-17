@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/data/models/user_model.dart';
 import 'package:naraakom/core/widgets/show_toast.dart';
-import 'package:naraakom/features/new_reservation/Timer.dart';
+import 'package:naraakom/core/data/models/Timer.dart';
 import 'package:naraakom/features/new_reservation/presentation/manager/new_reservation_cubit.dart';
 import 'custom_time_button.dart';
 
@@ -37,7 +37,6 @@ class NewReservationBody extends StatelessWidget {
                       .then((value) {
                     if(value !=null){
                       cubit.addRequestDay = value;
-                      print(value.format());
                       cubit.dayName();
                     }
                   });

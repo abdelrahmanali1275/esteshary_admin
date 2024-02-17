@@ -104,7 +104,7 @@ class RequestCard extends StatelessWidget {
                 ).onTap(() {
                   context
                       .read<DoctorRequestCubit>()
-                      .stateRequest(data, index, "طلب مؤكد");
+                      .acceptRequest(data, index, );
                 }),
                 10.width,
                 const Chip(
@@ -112,7 +112,7 @@ class RequestCard extends StatelessWidget {
                 ).onTap(() {
                   context
                       .read<DoctorRequestCubit>()
-                      .stateRequest(data, index, "طلب ملغي");
+                      .cancelRequest(data[index].id,data[index].doctor.doctorId,data[index].num );
                 }),
               ],
             ),

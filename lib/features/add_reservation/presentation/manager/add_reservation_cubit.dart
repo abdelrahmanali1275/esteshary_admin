@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:naraakom/core/data/firebase/firebase_requests.dart';
 
+import '../../../../core/data/firebase/firebase_requests.dart';
 import '../../../../core/data/models/user_model.dart';
 
-part 'chat_users_state.dart';
+part 'add_reservation_state.dart';
 
-class ChatUsersCubit extends Cubit<ChatUsersState> {
-  ChatUsersCubit() : super(ChatUsersInitial());
-
+class AddReservationCubit extends Cubit<AddReservationState> {
+  AddReservationCubit() : super(AddReservationInitial());
   FireBaseRequests fireBaseRequests= FireBaseRequests();
 
   getAllUsers()async{

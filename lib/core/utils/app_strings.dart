@@ -14,6 +14,7 @@ class AppStrings {
   static const String addOneRoom = "اضافة غرفة";
   static const String newReservation = "حجز جديد";
   static const String customRequests = "الطلبات العامة";
+  static const String addReservation = "إضافة حجز جديد";
   static const String talkAboutYou = "اشرح حالتك";
   static const String specialestAvailable = "التخصصات المتاحة";
   static const String timeAvailable = "المواعيد المتاحة";
@@ -71,6 +72,6 @@ class AppStrings {
   static const String passwordEng = "password";
   static const String doctorId = 'doctorId';
   static const String waiting = "في انتظار الدفع";
-  static const String accept = "طلب مؤكد";
-  static const String refuse = "طلب ملغي";
+  static const String accept = "طلب مؤكد يرجى اضافة الغرفة";
+  static const String cancel = "طلب ملغي";
 }
