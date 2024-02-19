@@ -53,4 +53,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <!-- Provide required visibility configuration for API level 30 and above -->
 </manifest>

@@ -39,59 +39,66 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
- // await NotificationApi.init();
+ await NotificationApi.init();
 
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-  //
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
-  //
-  // deviceToken = await messaging.getToken(
-  //   vapidKey: "BGpdLRs......",
-  // );
-  // print("token///////$deviceToken");
-  //
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   print('Got a message whilst in the foreground!');
-  //   print('Message data: ${message.data}');
-  //
-  //   if (message.notification != null) {
-  //     print('Message also contained a notification: ${message.notification}');
-  //     print(inChat);
-  //
-  //     if (!inChat) {
-  //       NotificationApi.notificationsDetails(
-  //           body: "${message.notification!.body}",
-  //           title: "${message.notification!.title}",
-  //           payload: message.data['id']);
-  //     }
-  //   }
-  // });
-  // FirebaseMessaging.onMessageOpenedApp.listen((event) {
-  //   navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
-  //     builder: (context) => ChatScreen(userId: event.data["id"] ?? ""),
-  //   ));
-  // });
-  //
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  //
-  // try {
-  //   await messaging.subscribeToTopic('admin');
-  //   print(" subscribeToTopic");
-  // } catch (e) {
-  //   print("canont subscribeToTopic");
-  // }
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  deviceToken = await messaging.getToken(
+    vapidKey: "BGpdLRs......",
+  );
+  print("token///////$deviceToken");
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+
+
+
+        NotificationApi.notificationsDetails(
+            body: "${message.notification!.body}",
+            title: "${message.notification!.title}",
+            payload: message.data['id']);
+
+    }
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+
+    // navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
+    //   builder: (context) => ChatScreen(userId: event.data["id"] ?? ""),
+    // ));
+  });
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+adminSubscripe(){
+  try {
+    FirebaseMessaging.instance.subscribeToTopic("admin");
+  }  catch (e) {
+    print(e.toString());
+  }
+}
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

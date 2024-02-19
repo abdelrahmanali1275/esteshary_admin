@@ -36,7 +36,7 @@ class NotificationApi {
 
   static Future init({bool initSchedule = false}) async {
     const android =
-        AndroidInitializationSettings('@mipmap-hdpi/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_launcher');
     const ios = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,

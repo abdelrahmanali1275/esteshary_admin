@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
+import 'package:naraakom/core/utils/extension/widget.dart';
 import 'package:naraakom/features/new_reservation/presentation/widgets/specialization_list.dart';
 
 import '../../config/theme/custom_text_style.dart';
@@ -25,6 +26,7 @@ class EnterDoctor extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+
             Text(AppStrings.specialestAvailable,
                 style: CustomTextStyles.bodyLargeBlackFont40),
             30.height,

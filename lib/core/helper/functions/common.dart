@@ -1,12 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/utils/extension/color.dart';
-
-
-
 
 /// Enum for page route
 enum PageRouteAnimation { Fade, Scale, Rotate, Slide, SlideBottomTop }
@@ -15,7 +11,6 @@ enum PageRouteAnimation { Fade, Scale, Rotate, Slide, SlideBottomTop }
 bool hasMatch(String? s, String p) {
   return (s == null) ? false : RegExp(p).hasMatch(s);
 }
-
 
 /// Hide soft keyboard
 void hideKeyboard(context) => FocusScope.of(context).requestFocus(FocusNode());
@@ -32,16 +27,12 @@ Future<dynamic> pasteObject() async {
   return data;
 }
 
-
 T? makeNullable<T>(T? value) => value;
-
 
 void afterBuildCreated(Function()? onCreated) {
   makeNullable(SchedulerBinding.instance)!
       .addPostFrameCallback((_) => onCreated?.call());
 }
-
-
 
 ///Animations Page Transactions
 
@@ -52,8 +43,7 @@ Route<T> buildPageRoute<T>(
 ) {
   if (pageRouteAnimation != null) {
     if (pageRouteAnimation == PageRouteAnimation.Fade) {
-
-    return  PageRouteBuilder(
+      return PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 100),
         reverseTransitionDuration: const Duration(milliseconds: 50),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -117,13 +107,6 @@ Route<T> buildPageRoute<T>(
   return MaterialPageRoute<T>(builder: (_) => child);
 }
 
-
-
-
-
-
-
-
 /// mailto: function to open native email app
 Uri mailTo({
   required List<String> to,
@@ -150,7 +133,6 @@ Uri mailTo({
   );
 }
 
-
 void finish(BuildContext context, [Object? result]) {
   if (Navigator.canPop(context)) Navigator.pop(context, result);
 }
@@ -169,17 +151,17 @@ Future<T?> launchNewScreen<T>(BuildContext context, String tag) async =>
 /// launchNewScreenWithNewTask(context, '/HomePage');
 /// ```
 Future<T?> launchNewScreenWithNewTask<T>(
-    BuildContext context, String tag) async =>
+        BuildContext context, String tag) async =>
     Navigator.of(context).pushNamedAndRemoveUntil(tag, (r) => false);
 
 /// Change status bar Color and Brightness
 Future<void> setStatusBarColor(
-    Color statusBarColor, {
-      Color? systemNavigationBarColor,
-      Brightness? statusBarBrightness,
-      Brightness? statusBarIconBrightness,
-      int delayInMilliSeconds = 200,
-    }) async {
+  Color statusBarColor, {
+  Color? systemNavigationBarColor,
+  Brightness? statusBarBrightness,
+  Brightness? statusBarIconBrightness,
+  int delayInMilliSeconds = 200,
+}) async {
   await Future.delayed(Duration(milliseconds: delayInMilliSeconds));
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -257,6 +239,16 @@ void setOrientationLandscape() {
   ]);
 }
 
+/// launch uri
+
+// launchUrl(String url) {
+//   try {
+//     launchUrl(url);
+//   } catch (e) {
+//     showToast(text: "Could not launch $url", state: ToastStates.error);
+//     // TODO
+//   }
+// }
 
 /// returns how much time ago from timestamp
 String formatTime(int timestamp) {

@@ -5,6 +5,8 @@ import 'package:naraakom/core/data/firebase/firebase_requests.dart';
 import 'package:naraakom/core/data/models/request_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 
+import '../../../chat/presentation/pages/widgets/class_notifaction_api.dart';
+
 part 'doctor_request_state.dart';
 
 class DoctorRequestCubit extends Cubit<DoctorRequestState> {
@@ -16,7 +18,10 @@ class DoctorRequestCubit extends Cubit<DoctorRequestState> {
     emit(ConfirmRequestsLoading());
     var res = await fireBaseRequests.getRequestsWaiting();
     res.fold((l) => emit(ConfirmRequestsErr(message: l.message)),
-        (r) => emit(ConfirmRequestsLoaded(data: r)));
+        (r) {
+NotificationApi.notificationsDetails(body: "body", title: "title", payload: "payload");
+          emit(ConfirmRequestsLoaded(data: r));
+        });
   }
   acceptRequest(data, index, ) {
     FirebaseFirestore.instance
